@@ -44,6 +44,25 @@ const createRekening = async (req, res) => {
   }
 };
 
+const check_rekening = async (req, res) => {
+  const { no_rekening } = req.body;
+  try {
+    const exist_rekening = await Rekening.findOne({
+      where: { no_rekening: no_rekening },
+    });
+    if (!exist_rekening) {
+      return res.status(404).json({ message: "Rekening not found" });
+    }
+    res.status(200).json({
+      data: exist_rekening.no_rekening,
+      message: "Rekening ditemukan",
+    });
+  } catch (error) {
+    console.error("Check rekening error: ", error);
+    return res.status(500).json({ message: "SERVER ERROR" });
+  }
+};
+
 const deleteRekening = async (req, res) => {
   const { no_rekening } = req.body;
   try {
@@ -55,12 +74,10 @@ const deleteRekening = async (req, res) => {
       return res.status(404).json({ message: "No Rekening Not Found" });
     }
     if (exist_rekening.saldo > 0) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "Saldo anda masih ada, dilahkan pindahkan saldo terlebih dahulu!",
-        });
+      return res.status(400).json({
+        message:
+          "Saldo anda masih ada, dilahkan pindahkan saldo terlebih dahulu!",
+      });
     }
 
     await Rekening.destroy({
@@ -73,4 +90,4 @@ const deleteRekening = async (req, res) => {
   }
 };
 
-module.exports = { createRekening, deleteRekening };
+module.exports = { createRekening, deleteRekening, check_rekening };

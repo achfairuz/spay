@@ -45,7 +45,7 @@ const createRekening = async (req, res) => {
 };
 
 const check_rekening = async (req, res) => {
-  const { no_rekening } = req.body;
+  const { no_rekening } = req.params;
   try {
     const exist_rekening = await Rekening.findOne({
       where: { no_rekening: no_rekening },

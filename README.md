@@ -28,6 +28,7 @@ cd repo-spay
 
 ```bash
 npm install express sequelize pg pg-hstore
+npm install cors
 npm install --save-dev sequelize-cli
 npm install bcrypt
 npm install jsonwebtoken bcryptjs dotenv
